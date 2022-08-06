@@ -970,7 +970,7 @@ bool PlayerNameNotSetYet( const char *pszName )
 	return false;
 }
 
-ConVar cl_player_joined_game( "cl_player_joined_game", "1", FCVAR_ARCHIVE, "hides the player join the game message" );
+ConVar cl_player_joined_game( "cl_player_joined_game", "1", FCVAR_ARCHIVE, "hides player has join the game message" );
 ConVar sv_player_joined_game("sv_player_joined_game", "", FCVAR_REPLICATED | FCVAR_NOTIFY, "overrrides cl_player_joined_game with what server owner wants");
 
 bool hideplayerjoined() {
