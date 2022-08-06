@@ -970,6 +970,16 @@ bool PlayerNameNotSetYet( const char *pszName )
 	return false;
 }
 
+ConVar cl_player_joined_game( "cl_player_joined_game", "1", FCVAR_ARCHIVE, "hides the player join the game message" );
+ConVar sv_player_joined_game("sv_player_joined_game", "", FCVAR_REPLICATED | FCVAR_NOTIFY, "overrrides cl_player_joined_game with what server owner wants");
+
+bool hideplayerjoined() {
+	if (sv_player_joined_game.GetString() == "")
+		return cl_player_joined_game.GetBool();
+	else
+		return sv_player_joined_game.GetBool();
+}
+
 void ClientModeShared::FireGameEvent( IGameEvent *event )
 {
 	CBaseHudChat *hudChat = (CBaseHudChat *)GET_HUDELEMENT( CHudChat );
@@ -981,6 +991,9 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 		if ( !hudChat )
 			return;
 		if ( PlayerNameNotSetYet(event->GetString("name")) )
+			return;
+
+		if( !hideplayerjoined() )
 			return;
 
 		if ( !IsInCommentaryMode() )
