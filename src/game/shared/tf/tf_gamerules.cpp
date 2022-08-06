@@ -416,7 +416,7 @@ ConVar mp_spectators_restricted( "mp_spectators_restricted", "0", FCVAR_NONE, "P
 ConVar tf_test_special_ducks( "tf_test_special_ducks", "1", FCVAR_DEVELOPMENTONLY );
 
 ConVar tf_mm_abandoned_players_per_team_max( "tf_mm_abandoned_players_per_team_max", "1", FCVAR_DEVELOPMENTONLY );
-ConVar tf_unzoom_on_backstab( "tf_unzoom_on_backstab", "1", FCVAR_REPLICATED | FCVAR_CHEAT, "unzooms when shield breaks" );
+ConVar tf_unzoom_on_backstab( "tf_unzoom_on_backstab", "1", FCVAR_ARCHIVE, "unzooms when shield breaks" );
 
 #endif // GAME_DLL
 ConVar tf_mm_next_map_vote_time( "tf_mm_next_map_vote_time", "30", FCVAR_REPLICATED );
