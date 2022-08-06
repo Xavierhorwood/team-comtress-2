@@ -1629,7 +1629,7 @@ bool C_TFRagdoll::IsRagdollVisible()
 extern ConVar g_ragdoll_lvfadespeed;
 extern ConVar g_ragdoll_fadespeed;
 
-ConVar tf_ragdoll_cosmetics( "tf_ragdoll_cosmetics", "1", 0, "hides cosmetices on ragdolls" );
+ConVar tf_ragdoll_cosmetics( "tf_ragdoll_cosmetics", "1", FCVAR_ARCHIVE, "hides cosmetices on ragdolls" );
 
 void C_TFRagdoll::ClientThink( void )
 {
