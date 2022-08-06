@@ -5287,12 +5287,17 @@ void CBasePlayer::AllowImmediateDecalPainting()
 	m_flNextDecalTime = gpGlobals->curtime;
 }
 
+ConVar sv_suicide( "sv_suicide", "1", FCVAR_NOTIFY, "allows a player to use kill or explode" );
+
 // Suicide...
 void CBasePlayer::CommitSuicide( bool bExplode /*= false*/, bool bForce /*= false*/ )
 {
 	MDLCACHE_CRITICAL_SECTION();
 
 	if( !IsAlive() )
+		return;
+
+	if ( !sv_suicide.GetBool() )
 		return;
 		
 	// prevent suiciding too often
@@ -5319,6 +5324,9 @@ void CBasePlayer::CommitSuicide( const Vector &vecForce, bool bExplode /*= false
 
 	// Already dead.
 	if( !IsAlive() )
+		return;
+
+	if ( !sv_suicide.GetBool() )
 		return;
 
 	// Prevent suicides for a time.

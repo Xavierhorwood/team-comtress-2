@@ -7,3 +7,4 @@
 | cl_player_joined_team  | bool | 1       | 0   | 1   | FCVAR_ARCHIVE | hides player has joined a team message                  |
 | cl_player_changed_name | bool | 1       | 0   | 1   | FCVAR_ARCHIVE | hides player has changed name message                   |
 | tf_unzoom_on_backstab  | bool | 1       | 0   | 1   | FCVAR_ARCHIVE | unzooms when shield breaks                              |
+| sv_suicide             | bool | 1       | 0   | 1   | FCVAR_NOTIFY  | Allows a player to use kill or explode                  |
