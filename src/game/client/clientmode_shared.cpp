@@ -971,24 +971,9 @@ bool PlayerNameNotSetYet( const char *pszName )
 }
 
 ConVar cl_player_joined_game( "cl_player_joined_game", "1", FCVAR_ARCHIVE, "hides player has join the game message" );
-ConVar sv_player_joined_game("sv_player_joined_game", "2", FCVAR_REPLICATED | FCVAR_NOTIFY, "overrrides cl_player_joined_game with what server owner wants. 2 = let client decide " );
-
-bool hideplayerjoined() {
-	if (sv_player_joined_game.GetInt() == 2)
-		return cl_player_joined_game.GetBool();
-	else
-		return sv_player_joined_game.GetBool();
-}
-
 ConVar cl_player_left_game( "cl_player_left_game", "1", FCVAR_ARCHIVE, "hides player has left the game message" );
-ConVar sv_player_left_game("sv_player_left_game", "2", FCVAR_REPLICATED | FCVAR_NOTIFY, "overrrides cl_player_joined_game with what server owner wants. 2 = let client decide");
-
-bool hideplayerleft() {
-	if (sv_player_left_game.GetInt() == 2)
-		return cl_player_left_game.GetBool();
-	else
-		return sv_player_left_game.GetBool();
-}
+ConVar cl_player_joined_team( "cl_player_joined_team", "1", FCVAR_ARCHIVE, "hides player has joined a team message" );
+ConVar cl_player_changed_name( "cl_player_changed_name", "1", FCVAR_ARCHIVE, "hides player has changed name message" );
 
 void ClientModeShared::FireGameEvent( IGameEvent *event )
 {
@@ -1003,7 +988,7 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 		if ( PlayerNameNotSetYet(event->GetString("name")) )
 			return;
 
-		if( !hideplayerjoined() )
+		if( !cl_player_joined_game.GetBool() )
 			return;
 
 		if ( !IsInCommentaryMode() )
@@ -1028,7 +1013,7 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 		if ( PlayerNameNotSetYet(event->GetString("name")) )
 			return;
 
-		if( !hideplayerleft() )
+		if( !cl_player_left_game.GetBool() )
 			return;
 
 		if ( !IsInCommentaryMode() )
@@ -1063,6 +1048,10 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 	}
 	else if ( Q_strcmp( "player_team", eventname ) == 0 )
 	{
+
+		if( !cl_player_joined_team.GetBool() )
+			return;
+
 		C_BasePlayer *pPlayer = USERID2PLAYER( event->GetInt("userid") );
 		if ( !hudChat )
 			return;
@@ -1131,6 +1120,9 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 	else if ( Q_strcmp( "player_changename", eventname ) == 0 )
 	{
 		if ( !hudChat )
+			return;
+
+		if( !cl_player_changed_name.GetBool() )
 			return;
 
 		const char *pszOldName = event->GetString("oldname");
