@@ -970,10 +970,14 @@ bool PlayerNameNotSetYet( const char *pszName )
 	return false;
 }
 
-ConVar cl_player_joined_game( "cl_player_joined_game", "1", FCVAR_ARCHIVE, "hides player has join the game message" );
+ConVar cl_player_joined_game( "cl_player_joined_game", "1", FCVAR_ARCHIVE, "hides player has joined the game message" );
 ConVar cl_player_left_game( "cl_player_left_game", "1", FCVAR_ARCHIVE, "hides player has left the game message" );
 ConVar cl_player_joined_team( "cl_player_joined_team", "1", FCVAR_ARCHIVE, "hides player has joined a team message" );
 ConVar cl_player_changed_name( "cl_player_changed_name", "1", FCVAR_ARCHIVE, "hides player has changed name message" );
+ConVar cl_server_cvar_changed( "cl_server_cvar_changed", "1", FCVAR_ARCHIVE, "hides server convar changed message" );
+ConVar cl_achievement_earned( "cl_achievement_earned", "1", FCVAR_ARCHIVE, "hides achievement earned message" );
+ConVar cl_achievement_particles( "cl_achievement_particles", "1", FCVAR_ARCHIVE, "hides achievement particles" );
+ConVar cl_item_found( "cl_item_found", "1", FCVAR_ARCHIVE, "hides item found messages");
 
 void ClientModeShared::FireGameEvent( IGameEvent *event )
 {
@@ -1190,6 +1194,9 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 	}
 	else if ( Q_strcmp( "server_cvar", eventname ) == 0 )
 	{
+		if ( !cl_server_cvar_changed.GetBool() )
+			return;
+
 		if ( !IsInCommentaryMode() )
 		{
 			wchar_t wszCvarName[64];
@@ -1209,6 +1216,9 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 	}
 	else if ( Q_strcmp( "achievement_earned", eventname ) == 0 )
 	{
+		if (!cl_achievement_earned.GetBool())
+			return;
+		
 		int iPlayerIndex = event->GetInt( "player" );
 		C_BasePlayer *pPlayer = UTIL_PlayerByIndex( iPlayerIndex );
 		int iAchievement = event->GetInt( "achievement" );
@@ -1230,7 +1240,7 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 					pPlayer->SetNextAchievementAnnounceTime( gpGlobals->curtime + ACHIEVEMENT_ANNOUNCEMENT_MIN_TIME );
 
 					// no particle effect if the local player is the one with the achievement or the player is dead
-					if ( !pPlayer->IsLocalPlayer() && pPlayer->IsAlive() ) 
+					if ( !pPlayer->IsLocalPlayer() && pPlayer->IsAlive() && cl_achievement_particles.GetBool() )
 					{
 						//tagES using the "head" attachment won't work for CS and DoD
 						pPlayer->ParticleProp()->Create( "achieved", PATTACH_POINT_FOLLOW, "head" );
@@ -1262,6 +1272,9 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 #if defined( TF_CLIENT_DLL )
 	else if ( Q_strcmp( "item_found", eventname ) == 0 )
 	{
+		if (!cl_item_found.GetBool())
+			return;
+		
 		int iPlayerIndex = event->GetInt( "player" );
 		entityquality_t iItemQuality = event->GetInt( "quality" );
 		int iMethod = event->GetInt( "method" );
