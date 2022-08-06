@@ -90,7 +90,7 @@ void CRegenerateZone::Activate( void )
 	}
 }
 
-ConVar sv_disable_resupply_cabinet("sv_disable_resupply_cabinet", "0", FCVAR_REPLICATED, "If enabled, the resupply cabinet will not be available.");
+ConVar sv_resupply_cabinet("sv_disable_resupply_cabinet", "0", FCVAR_REPLICATED, "If disabled, the resupply cabinet will not be available.");
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -125,7 +125,7 @@ void CRegenerateZone::Touch( CBaseEntity *pOther )
 			if ( TFGameRules()->InStalemate() )
 				return;
 
-			if (sv_disable_resupply_cabinet.GetBool())
+			if (sv_resupply_cabinet.GetBool())
 				return;
 
 			Regenerate( pPlayer );
