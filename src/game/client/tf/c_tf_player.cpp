@@ -1629,6 +1629,8 @@ bool C_TFRagdoll::IsRagdollVisible()
 extern ConVar g_ragdoll_lvfadespeed;
 extern ConVar g_ragdoll_fadespeed;
 
+ConVar tf_ragdoll_cosmetics( "tf_ragdoll_cosmetics", "1", 0, "hides cosmetices on ragdolls" );
+
 void C_TFRagdoll::ClientThink( void )
 {
 	SetNextClientThink( CLIENT_THINK_ALWAYS );
@@ -1644,6 +1646,21 @@ void C_TFRagdoll::ClientThink( void )
 
 		m_BoneAccessor.SetReadableBones( 0 );
 		SetupBones( NULL, -1, BONE_USED_BY_ATTACHMENT, gpGlobals->curtime );
+	}
+
+	if(!tf_ragdoll_cosmetics.GetBool())
+	{
+		for ( C_BaseEntity *pEntity = ClientEntityList().FirstBaseEntity(); pEntity; pEntity = ClientEntityList().NextBaseEntity(pEntity) )
+		{
+		if ( pEntity->GetFollowedEntity() == this )
+			{
+				CEconEntity *pItem = dynamic_cast< CEconEntity * >( pEntity );
+				if ( pItem )
+				{
+					pItem->AddEffects( EF_NODRAW );
+				}
+			}
+		}
 	}
 
 	if ( m_bCloaked && m_flPercentInvisible < 1.f )
