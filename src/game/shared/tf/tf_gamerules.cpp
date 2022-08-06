@@ -416,6 +416,7 @@ ConVar mp_spectators_restricted( "mp_spectators_restricted", "0", FCVAR_NONE, "P
 ConVar tf_test_special_ducks( "tf_test_special_ducks", "1", FCVAR_DEVELOPMENTONLY );
 
 ConVar tf_mm_abandoned_players_per_team_max( "tf_mm_abandoned_players_per_team_max", "1", FCVAR_DEVELOPMENTONLY );
+ConVar tf_unzoom_on_backstab( "tf_unzoom_on_backstab", "1", FCVAR_REPLICATED | FCVAR_CHEAT, "unzooms when shield breaks" );
 
 #endif // GAME_DLL
 ConVar tf_mm_next_map_vote_time( "tf_mm_next_map_vote_time", "30", FCVAR_REPLICATED );
@@ -3673,6 +3674,10 @@ void CTFGameRules::CheckAndSetPartyLeader( CTFPlayer *pTFPlayer, int iTeam )
 	//}
 }
 
+
+ConVar tf_halloween_warn_talk( "tf_halloween_warn_talk", "1", FCVAR_CHEAT | FCVAR_REPLICATED, "Warn player if they are it" );
+ConVar tf_halloween_warn_center( "tf_halloween_warn_center", "1", FCVAR_CHEAT | FCVAR_REPLICATED, "Warn player if they are it" );
+
 //-----------------------------------------------------------------------------
 // Purpose: Sets current boss victim
 //-----------------------------------------------------------------------------
@@ -3685,8 +3690,10 @@ void CTFGameRules::SetIT( CBaseEntity *who )
 		if ( newIT && newIT != m_itHandle.Get() )
 		{
 			// new IT victim - warn them
-			ClientPrint( newIT, HUD_PRINTTALK, "#TF_HALLOWEEN_BOSS_WARN_VICTIM", newIT->GetPlayerName() );
-			ClientPrint( newIT, HUD_PRINTCENTER, "#TF_HALLOWEEN_BOSS_WARN_VICTIM", newIT->GetPlayerName() );
+			if( tf_halloween_warn_talk.GetBool() )
+				ClientPrint( newIT, HUD_PRINTTALK, "#TF_HALLOWEEN_BOSS_WARN_VICTIM", newIT->GetPlayerName() );
+			if( tf_halloween_warn_center.GetBool() )
+				ClientPrint( newIT, HUD_PRINTCENTER, "#TF_HALLOWEEN_BOSS_WARN_VICTIM", newIT->GetPlayerName() );
 
 			CSingleUserReliableRecipientFilter filter( newIT );
 			newIT->EmitSound( filter, newIT->entindex(), "Player.YouAreIT" );
@@ -6072,6 +6079,8 @@ bool CTFGameRules::ApplyOnDamageModifyRules( CTakeDamageInfo &info, CBaseEntity 
 			pVictim->EmitSound( "Player.Spy_Shield_Break" );
 
 			// Unzoom the sniper.
+			if( tf_unzoom_on_backstab.GetBool() )
+			{
 			CTFWeaponBase *pWeapon = pVictim->GetActiveTFWeapon();
 			if ( pWeapon && WeaponID_IsSniperRifle( pWeapon->GetWeaponID() ) )
 			{
@@ -6080,6 +6089,8 @@ bool CTFGameRules::ApplyOnDamageModifyRules( CTakeDamageInfo &info, CBaseEntity 
 				{
 					pSniperRifle->ZoomOut();
 				}
+			}
+
 			}
 
 			// Vibrate the spy's knife.
@@ -16590,9 +16601,6 @@ int	CTFGameRules::CalcPlayerSupportScore( RoundStats_t *pRoundStats, int iPlayer
 //-----------------------------------------------------------------------------
 bool CTFGameRules::IsBirthday( void ) const
 {
-	if ( IsX360() )
-		return false;
-
 	return tf_birthday.GetBool() || IsHolidayActive( kHoliday_TFBirthday );
 }
 
