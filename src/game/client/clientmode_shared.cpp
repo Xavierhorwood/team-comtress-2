@@ -971,13 +971,23 @@ bool PlayerNameNotSetYet( const char *pszName )
 }
 
 ConVar cl_player_joined_game( "cl_player_joined_game", "1", FCVAR_ARCHIVE, "hides player has join the game message" );
-ConVar sv_player_joined_game("sv_player_joined_game", "", FCVAR_REPLICATED | FCVAR_NOTIFY, "overrrides cl_player_joined_game with what server owner wants");
+ConVar sv_player_joined_game("sv_player_joined_game", "2", FCVAR_REPLICATED | FCVAR_NOTIFY, "overrrides cl_player_joined_game with what server owner wants. 2 = let client decide " );
 
 bool hideplayerjoined() {
-	if (sv_player_joined_game.GetString() == "")
+	if (sv_player_joined_game.GetInt() == 2)
 		return cl_player_joined_game.GetBool();
 	else
 		return sv_player_joined_game.GetBool();
+}
+
+ConVar cl_player_left_game( "cl_player_left_game", "1", FCVAR_ARCHIVE, "hides player has left the game message" );
+ConVar sv_player_left_game("sv_player_left_game", "2", FCVAR_REPLICATED | FCVAR_NOTIFY, "overrrides cl_player_joined_game with what server owner wants. 2 = let client decide");
+
+bool hideplayerleft() {
+	if (sv_player_left_game.GetInt() == 2)
+		return cl_player_left_game.GetBool();
+	else
+		return sv_player_left_game.GetBool();
 }
 
 void ClientModeShared::FireGameEvent( IGameEvent *event )
@@ -1016,6 +1026,9 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 		if ( !hudChat || !pPlayer )
 			return;
 		if ( PlayerNameNotSetYet(event->GetString("name")) )
+			return;
+
+		if( !hideplayerleft() )
 			return;
 
 		if ( !IsInCommentaryMode() )
