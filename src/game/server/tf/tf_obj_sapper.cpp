@@ -20,6 +20,7 @@
 #include "bot/tf_bot.h"
 
 ConVar tf_mvm_notice_sapped_squadmates_delay( "tf_mvm_notice_sapped_squadmates_delay", "1", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "How long it takes for a squad leader to notice his squadmate was sapped" );
+ConVar sv_sapper_health("sv_sapper_health", SAPPER_MAX_HEALTH, FCVAR_NOTIFY, "the health for the sapper");
 
 
 // ------------------------------------------------------------------------ //
@@ -786,7 +787,7 @@ void CObjectSapper::Killed( const CTakeDamageInfo &info )
 
 int CObjectSapper::GetBaseHealth( void )
 {
-	float flSapperHealth = SAPPER_MAX_HEALTH;
+	float flSapperHealth = sv_sapper_health.GetInt();
 	CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( GetBuilder(), flSapperHealth, mult_sapper_health );
 
 	return flSapperHealth;

@@ -17,3 +17,4 @@
 | sv_sentrygun_rockets     | int   | 8       |     |     | FCVAR_CHEAT   | Number of sentry gun rockets to add on hit              |
 | sv_sentrygun_think_delay | float | 0.05    |     |     | FCVAR_NOTIFY  | How long to wait between the sentry gun thinking        |
 | sv_sentrygun_upgraded    | bool  | 1       | 0   | 1   | FCVAR_NOTIFY  | If 1, upgraded sentry guns are available                |
+| sv_sapper_health         | int   | 100     |     |     | FCVAR_NOTIFY  | the health for the sapper                               |

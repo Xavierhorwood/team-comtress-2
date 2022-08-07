@@ -12,7 +12,7 @@
 
 #include "tf_obj_baseupgrade_shared.h"
 
-#define SAPPER_MAX_HEALTH	100
+#define SAPPER_MAX_HEALTH	"100"
 
 
 enum SapperModel_t
