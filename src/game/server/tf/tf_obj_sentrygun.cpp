@@ -48,10 +48,15 @@ extern ConVar tf_nav_in_combat_range;
 #define SENTRYGUN_MINS			Vector(-20, -20, 0)
 #define SENTRYGUN_MAXS			Vector( 20,  20, 66)
 
-#define SENTRYGUN_ADD_SHELLS	40
-#define SENTRYGUN_ADD_ROCKETS	8
+ConVar sv_sentrygun_shells( "sv_sentrygun_shells", "40", FCVAR_CHEAT, "Number of sentry gun shells to add on hit" );
+ConVar sv_sentrygun_rockets( "sv_sentrygun_rockets", "8", FCVAR_CHEAT, "Number of sentry gun rockets to add on hit" );
 
-#define SENTRY_THINK_DELAY	0.05f
+#define SENTRYGUN_ADD_SHELLS	sv_sentrygun_shells.GetInt()
+#define SENTRYGUN_ADD_ROCKETS	sv_sentrygun_rockets.GetInt()
+
+ConVar sv_sentrygun_think_delay ( "sv_sentrygun_think_delay", "0.05", FCVAR_NOTIFY, "How long to wait between the sentry gun thinking" );
+
+#define SENTRY_THINK_DELAY	sv_sentrygun_think_delay.GetFloat()
 
 #define	SENTRYGUN_CONTEXT	"SentrygunContext"
 
@@ -68,7 +73,9 @@ extern ConVar tf_nav_in_combat_range;
 #define DISPOSABLE_SCALE			0.65f
 #define SMALL_SENTRY_SCALE			0.80f
 
-#define WRANGLER_DISABLE_TIME		3.0f
+ConVar sv_wrangler_disable_time ( "sv_wrangler_disable_time", "3.0", FCVAR_NOTIFY, "How long to disable wrangler after it's been used" );
+
+#define WRANGLER_DISABLE_TIME		sv_wrangler_disable_time.GetFloat()
 
 #define SENTRYGUN_FIRE_BOOST_DECAY 0.945f
 
@@ -133,8 +140,8 @@ END_DATADESC()
 LINK_ENTITY_TO_CLASS(obj_sentrygun, CObjectSentrygun);
 PRECACHE_REGISTER(obj_sentrygun);
 
-ConVar tf_sentrygun_damage( "tf_sentrygun_damage", "16", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY );
-ConVar tf_sentrygun_mini_damage( "tf_sentrygun_mini_damage", "8", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY );
+ConVar tf_sentrygun_damage( "tf_sentrygun_damage", "16", FCVAR_CHEAT);
+ConVar tf_sentrygun_mini_damage( "tf_sentrygun_mini_damage", "8", FCVAR_CHEAT);
 ConVar tf_sentrygun_ammocheat( "tf_sentrygun_ammocheat", "0", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY );
 extern ConVar tf_obj_upgrade_per_hit;
 ConVar tf_sentrygun_newtarget_dist( "tf_sentrygun_newtarget_dist", "200", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY );
@@ -519,11 +526,16 @@ void CObjectSentrygun::Precache()
 	PrecacheParticleSystem( "sentrydamage_4" );
 }
 
+ConVar sv_sentrygun_upgraded ( "sv_sentrygun_upgraded", "1", FCVAR_NOTIFY, "If 1, upgraded sentry guns are available" );
+
 //-----------------------------------------------------------------------------
 //
 //-----------------------------------------------------------------------------
 bool CObjectSentrygun::CanBeUpgraded( CTFPlayer *pPlayer )
 {
+	if ( !sv_sentrygun_upgraded.GetBool() )
+		return false;
+
 	if ( m_bWasMapPlaced && !HasSpawnFlags(SF_SENTRY_UPGRADEABLE) )
 	{
 		return false;
