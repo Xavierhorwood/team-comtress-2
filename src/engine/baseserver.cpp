@@ -177,7 +177,7 @@ static ConVar	sv_password( "sv_password", "", FCVAR_NOTIFY | FCVAR_PROTECTED | F
 ConVar			sv_tags( "sv_tags", "", FCVAR_NOTIFY, "Server tags. Used to provide extra information to clients when they're browsing for servers. Separate tags with a comma.", SvTagsChangeCallback );
 ConVar			sv_visiblemaxplayers( "sv_visiblemaxplayers", "-1", 0, "Overrides the max players reported to prospective clients" );
 ConVar			sv_alternateticks( "sv_alternateticks", ( IsX360() ) ? "1" : "0", FCVAR_SPONLY, "If set, server only simulates entities on even numbered ticks.\n" );
-ConVar			sv_allow_wait_command( "sv_allow_wait_command", "1", FCVAR_REPLICATED, "Allow or disallow the wait command on clients connected to this server." );
+ConVar			sv_allow_wait_command( "sv_allow_wait_command", "1", FCVAR_REPLICATED | FCVAR_NOTIFY, "Allow or disallow the wait command on clients connected to this server." );
 ConVar			sv_allow_color_correction( "sv_allow_color_correction", "1", FCVAR_REPLICATED, "Allow or disallow clients to use color correction on this server." );
 
 extern CNetworkStringTableContainer *networkStringTableContainerServer;
