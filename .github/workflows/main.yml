@@ -25,12 +25,12 @@ jobs:
       PreferredToolArchitecture: x64
     defaults:
       run:
-        working-directory: ./src
+        working-directory: src
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     
     - name: ping test
-      run: ping libs.mastercomfig.com
+      run: ping teamriverbubbles.com
     
     - uses: actions/checkout@v3
 
