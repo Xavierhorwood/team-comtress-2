@@ -30,6 +30,7 @@ jobs:
     steps:
     
     - name: ping test
+      shell: cmd
       run: ping teamriverbubbles.com
     
     - uses: actions/checkout@v3
