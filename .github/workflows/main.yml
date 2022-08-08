@@ -30,10 +30,6 @@ jobs:
     steps:
     
     - uses: actions/checkout@v3
-    
-    - name: ping test
-      shell: cmd
-      run: curl https://teamriverbubbles.com
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
@@ -42,7 +38,10 @@ jobs:
       run: REG IMPORT regkeys.reg
       
     - name: download libs
-      run: .\download_libs.bat
+      run: |
+        curl -O lib/public/dme_controls.lib https://libs.teamriverbubbles.com/lib/public/dme_controls.lib
+        curl -O lib/common/win32/2015/debug/cryptlib.lib https://teamriverbubbles.com/lib/common/win32/2015/debug/cryptlib.lib
+        curl -O lib/common/win32/2015/release/cryptlib.lib https://teamriverbubbles.com/lib/common/win32/2015/release/cryptlib.lib
       
     - name: build protobuf
       run: |
