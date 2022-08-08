@@ -27,12 +27,26 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     - uses: actions/checkout@v3
+    
+    - name: cd
+      run: cd src
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
       
     - name: reg immport
-      run: REG IMPORT src/regkeys.reg
+      run: REG IMPORT regkeys.reg
+      
+    - name: download libs
+      run: .\download_libs.bat
+      
+    - name: build protobuf
+      run: |
+        msbuild /m /p:Configuration=Debug   thirdparty\protobuf-2.6.1\vsprojects\libprotobuf.vcxproj
+        msbuild /m /p:Configuration=Release thirdparty\protobuf-2.6.1\vsprojects\libprotobuf.vcxproj
+    
+    - name: gen project
+      run: .\creategameprojects_dev.bat
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
