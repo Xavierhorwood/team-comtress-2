@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Build
 
 # Controls when the workflow will run
 on:
@@ -19,6 +19,10 @@ jobs:
   build-win:
     # The type of runner that the job will run on
     runs-on: windows-latest
+    
+    env:
+      VALVE_NO_AUTO_P4: 1
+      PreferredToolArchitecture: x64
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -26,6 +30,9 @@ jobs:
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
+      
+    - name: reg immport
+      run: REG IMPORT src/regkeys.reg
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
