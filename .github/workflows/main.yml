@@ -33,7 +33,7 @@ jobs:
     
     - name: ping test
       shell: cmd
-      run: curl https://teamriverbubble.com
+      run: curl https://teamriverbubbles.com
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
