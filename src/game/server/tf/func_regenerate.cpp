@@ -125,7 +125,7 @@ void CRegenerateZone::Touch( CBaseEntity *pOther )
 			if ( TFGameRules()->InStalemate() )
 				return;
 
-			if (sv_resupply_cabinet.GetBool())
+			if ( !sv_resupply_cabinet.GetBool() )
 				return;
 
 			Regenerate( pPlayer );
