@@ -23,13 +23,15 @@ jobs:
     env:
       VALVE_NO_AUTO_P4: 1
       PreferredToolArchitecture: x64
-
+    defaults:
+      run:
+        working-directory: ./src
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     - uses: actions/checkout@v3
     
     - name: cd
-      run: cd src
+      run: pwd src
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
