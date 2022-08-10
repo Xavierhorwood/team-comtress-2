@@ -1567,8 +1567,12 @@ void CBaseClient::CheckFlushNameChange( bool bShowStatusMessage /*= false*/ )
 	SetName( m_szPendingNameChange );
 }
 
+ConVar tf_name_change("tf_name_change", "1", FCVAR_NOTIFY);
+
 bool CBaseClient::IsNameChangeOnCooldown( bool bShowStatusMessage /*= false*/ )
 {
+	if (!tf_name_change.GetBool())
+		return true;
 	// Check cooldown.  The first name change is free
 	if ( m_fTimeLastNameChange > 0.0 )
 	{
