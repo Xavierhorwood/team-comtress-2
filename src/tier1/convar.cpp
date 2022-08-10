@@ -650,6 +650,11 @@ ConVar::ConVar( const char *pName, const char *pDefaultValue, int flags, const c
 	Create( pName, pDefaultValue, flags, pHelpString );
 }
 
+ConVar::ConVar(const char* pName, const char* pDefaultValue, const char* pHelpString)
+{
+	Create(pName, pDefaultValue, 0, pHelpString);
+}
+
 ConVar::ConVar( const char *pName, const char *pDefaultValue, int flags, const char *pHelpString, bool bMin, float fMin, bool bMax, float fMax )
 {
 	Create( pName, pDefaultValue, flags, pHelpString, bMin, fMin, bMax, fMax );

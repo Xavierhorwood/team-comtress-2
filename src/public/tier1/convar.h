@@ -327,6 +327,7 @@ public:
 
 								ConVar( const char *pName, const char *pDefaultValue, int flags, 
 									const char *pHelpString );
+								ConVar(const char* pName, const char* pDefaultValue, const char* pHelpString);
 								ConVar( const char *pName, const char *pDefaultValue, int flags, 
 									const char *pHelpString, bool bMin, float fMin, bool bMax, float fMax );
 								ConVar( const char *pName, const char *pDefaultValue, int flags, 
