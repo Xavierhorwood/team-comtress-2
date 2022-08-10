@@ -142,6 +142,8 @@ void CTFWrench::OnFriendlyBuildingHit( CBaseObject *pObject, CTFPlayer *pPlayer,
 }
 #endif
 
+ConVar tf_wrench_range("tf_wrench_range", "70", FCVAR_REPLICATED | FCVAR_NOTIFY, "the range to hit buildings");
+
 void CTFWrench::Smack( void )
 {
 	// see if we can hit an object with a higher range
@@ -162,7 +164,7 @@ void CTFWrench::Smack( void )
 	Vector vecForward; 
 	AngleVectors( pPlayer->EyeAngles(), &vecForward );
 	Vector vecSwingStart = pPlayer->Weapon_ShootPosition();
-	Vector vecSwingEnd = vecSwingStart + vecForward * 70;
+	Vector vecSwingEnd = vecSwingStart + vecForward * tf_wrench_range.GetInt();
 
 	// only trace against objects
 
@@ -330,7 +332,7 @@ void CTFWrench::ApplyBuildingHealthUpgrade( void )
 #endif
 
 // STAGING_ENGY
-ConVar tf_construction_build_rate_multiplier( "tf_construction_build_rate_multiplier", "1.5f", FCVAR_REPLICATED | FCVAR_DEVELOPMENTONLY );
+ConVar tf_construction_build_rate_multiplier( "tf_construction_build_rate_multiplier", "1.5", FCVAR_REPLICATED);
 float CTFWrench::GetConstructionValue( void )
 {
 	float flValue = tf_construction_build_rate_multiplier.GetFloat();
