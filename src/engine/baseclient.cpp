@@ -1567,7 +1567,7 @@ void CBaseClient::CheckFlushNameChange( bool bShowStatusMessage /*= false*/ )
 	SetName( m_szPendingNameChange );
 }
 
-ConVar tf_name_change("tf_name_change", "1", FCVAR_NOTIFY);
+ConVar tf_name_change("tf_name_change", "1", FCVAR_NOTIFY, "allows the player to change their name");
 
 bool CBaseClient::IsNameChangeOnCooldown( bool bShowStatusMessage /*= false*/ )
 {
