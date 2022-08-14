@@ -219,12 +219,17 @@ void C_TFProjectile_Arrow::CheckNearMiss( void )
 	EmitSound( localFilter, pLocalPlayer->entindex(), params );
 }
 
+ConVar cl_arrow_crit_trail("cl_arrow_crit_trail", "1", FCVAR_ARCHIVE, "show/hides the crit tail on a arrow");
+
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
 void C_TFProjectile_Arrow::CreateCritTrail( void )
 {
+	if (!cl_arrow_crit_trail.GetBool())
+		return;
+
 	if ( IsDormant() )
 		return;
 

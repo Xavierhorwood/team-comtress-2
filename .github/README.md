@@ -20,3 +20,4 @@
 | sv_sapper_health         | int   | 100     |     |     | FCVAR_NOTIFY                   | the health for the sapper                               |
 | tf_name_change           | bool  | 1       | 0   | 1   | FCVAR_NOTIFY                   | allows the player to change their name                  |
 | tf_wrench_range          | int   | 70      |     |     | FCVAR_REPLICATED, FCVAR_NOTIFY | the range to hit buildings                              |
+| cl_arrow_crit_trail      | bool  | 1       | 0   | 1   | FCVAR_ARCHIVE                  | show/hides the crit tail on a arrow                     |
