@@ -139,6 +139,8 @@ CObjectDispenser::~CObjectDispenser()
 	StopSound( "Building_Dispenser.Idle" );
 }
 
+ConVar sv_detonate_dispenser("sv_detonate_dispenser", "1", FCVAR_NOTIFY, "controls dispensers detonating");
+
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
@@ -146,6 +148,9 @@ void CObjectDispenser::DetonateObject( void )
 {
 	// We already dying?
 	if ( m_bDying )
+		return;
+
+	if (!sv_detonate_dispenser.GetBool())
 		return;
 
 #ifdef STAGING_ONLY

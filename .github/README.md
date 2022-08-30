@@ -18,6 +18,7 @@
 | sv_sentrygun_think_delay | float | 0.05    |     |     | FCVAR_NOTIFY                   | How long to wait between the sentry gun thinking        |
 | sv_sentrygun_upgraded    | bool  | 1       | 0   | 1   | FCVAR_NOTIFY                   | If 1, upgraded sentry guns are available                |
 | sv_sapper_health         | int   | 100     |     |     | FCVAR_NOTIFY                   | the health for the sapper                               |
+| sv_detonate_dispenser    | bool  | 1       | 0   | 1   | FCVAR_NOTIFY                   | controls dispensers detonating                          |
 | tf_name_change           | bool  | 1       | 0   | 1   | FCVAR_NOTIFY                   | allows the player to change their name                  |
 | tf_wrench_range          | int   | 70      |     |     | FCVAR_REPLICATED, FCVAR_NOTIFY | the range to hit buildings                              |
 | cl_arrow_crit_trail      | bool  | 1       | 0   | 1   | FCVAR_ARCHIVE                  | show/hides the crit trail on a arrow                     |
